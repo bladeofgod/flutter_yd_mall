@@ -50,8 +50,6 @@ dev_dependencies:
   flutter_webview_plugin: ^0.3.0+2
   cached_network_image: ^0.5.1
   flutter_html: ^0.8.2
-  flutter_inner_drawer: ^0.2.6
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

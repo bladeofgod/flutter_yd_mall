@@ -31,10 +31,7 @@ class SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Image.network(
-      'http://b.hiphotos.baidu.com/image/pic/item/0ff41bd5ad6eddc4802878ba34dbb6fd536633a0.jpg',
-      fit: BoxFit.fitHeight,
-    );
+    return Image.asset("assets/drawable-hdpi/welcome_bg.png",fit: BoxFit.fitHeight,);
   }
 }
 

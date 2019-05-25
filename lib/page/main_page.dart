@@ -52,10 +52,7 @@ class MainPageState extends State<MainPage> {
       child: Scaffold(
         appBar: AppBarWidget(
           title: appBarTitles[currentIndex],
-          leftWidget: AppBarWidget.iconButton(
-              Icons.calendar_view_day
-              ,color: Colors.white,
-              press: (){}),),
+          leftWidget: ,),
       ),
     );
   }

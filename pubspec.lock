@@ -111,13 +111,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.8.2"
-  flutter_inner_drawer:
-    dependency: "direct dev"
-    description:
-      name: flutter_inner_drawer
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.2.6"
   flutter_page_indicator:
     dependency: transitive
     description:
@@ -241,14 +234,14 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.5.0"
+    version: "1.4.0"
   petitparser:
     dependency: transitive
     description:
       name: petitparser
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.2.1"
+    version: "2.1.1"
   pull_to_refresh:
     dependency: "direct dev"
     description:
@@ -288,7 +281,7 @@ packages:
       name: source_span
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.5.5"
+    version: "1.5.4"
   sqflite:
     dependency: "direct dev"
     description:
@@ -379,7 +372,7 @@ packages:
       name: xml
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.4.1"
+    version: "3.3.1"
 sdks:
-  dart: ">=2.2.0 <3.0.0"
+  dart: ">=2.1.0 <3.0.0"
   flutter: ">=0.7.3 <2.0.0"
