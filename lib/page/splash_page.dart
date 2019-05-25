@@ -19,19 +19,25 @@ class SplashPageState extends State<SplashPage> {
     // TODO: implement initState
     super.initState();
 
-    ScreenUtil.instance = ScreenUtil(width: 1080,height: 1920)..init(context);
+
 
     Future.delayed(Duration(seconds: 4)).whenComplete((){
       Navigator.pushReplacementNamed(context, 'main_page');
     });
 
+  }
 
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    ScreenUtil.instance = ScreenUtil(width: 1080,height: 1920)..init(context);
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Image.asset("assets/drawable-hdpi/welcome_bg.png",fit: BoxFit.fitHeight,);
+    return Image.asset("assets/welcome_bg.png",fit: BoxFit.fitHeight,);
   }
 }
 

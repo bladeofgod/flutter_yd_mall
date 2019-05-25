@@ -8,7 +8,7 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget{
   Widget leftWidget;
   List<Widget> rightWidgets;
 
-  AppBarWidget({this.title,this.leftWidget,this.rightWidgets});
+  AppBarWidget({this.title,this.leftWidget,this.rightWidgets,});
 
   @override
   State<StatefulWidget> createState() {

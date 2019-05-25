@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../constant/constant.dart';
 import '../utils/sp_manager.dart';
 import '../constant/page_title.dart';
 import '../widget/app_bar.dart';
+import '../page/vip/vip_page.dart';
+import '../page/store/store_page.dart';
+import '../page/home/home_page.dart';
 
 
 
@@ -18,25 +22,33 @@ class MainPage extends StatefulWidget{
 class MainPageState extends State<MainPage> {
 
  var appBarTitles;
- int currentIndex;
+ int currentIndex = 0;
  PageController pageController = PageController(initialPage: 0,keepPage: true);
  DateTime lastPressedAt; //上次点击时间
+
+ var storeName = "惠友测试一店";
+ var admin = "超级管理员";
+ var adminName =  "杨晋";
+ String userName = "";
 
  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    var userName;
-    if(SpManager.singleton
-        .getString(Constant.USER_NAME) == null ){
+
+    SpManager.singleton
+        .getString(Constant.USER_NAME).then((str){
+      userName = str;
+      setState(() {
+
+      });
+    }) ;
+
+    if(userName.isEmpty){
       userName = '测试账号';
       SpManager.singleton.save(Constant.USER_NAME, userName);
-    }else{
-      userName = SpManager.singleton
-          .getString(Constant.USER_NAME) ;
     }
 
-    appBarTitles = [PageTitles.VIP_PAGE,userName,PageTitles.SHOP_PAGE];
 
   }
 
@@ -45,17 +57,145 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
+    appBarTitles = [PageTitles.VIP_PAGE,
+      userName,
+      PageTitles.SHOP_PAGE];
 
     //可监听退出键  其他功能百度
     return WillPopScope(
       child: Scaffold(
         appBar: AppBarWidget(
           title: appBarTitles[currentIndex],
-          leftWidget: ,),
+          leftWidget: Builder(builder: (context){
+            return IconButton(
+              icon: Icon(Icons.menu,color: Colors.white,),
+              onPressed: (){
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          }),
+        ),
+        drawer: Drawer(
+          child: _buildDrawer(),
+        ),
+        body: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: <Widget>[
+            VipPage(),
+            HomePage(),
+            StorePage(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          type: BottomNavigationBarType.fixed,
+          fixedColor: Colors.lightBlue,
+          onTap: (index)=>tap(index),
+          items: [
+            BottomNavigationBarItem(
+              title: Text(appBarTitles[0],),icon:Icon(Icons.person_add)
+            ),
+            BottomNavigationBarItem(
+                title: Text(appBarTitles[1],),icon:Icon(Icons.home)
+            ),
+            BottomNavigationBarItem(
+                title: Text(appBarTitles[2],),icon:Icon(Icons.store)
+            ),
+          ],
+        ),
       ),
+      onWillPop: ()async{
+        if(lastPressedAt == null || DateTime.now().difference(lastPressedAt)
+            >Duration(seconds: 2)){
+          lastPressedAt = DateTime.now();
+          Fluttertoast.showToast(msg: "再点击一次可退出应用");
+          return false;
+        }
+        return true;
+      },
     );
   }
+
+  tap(int index){
+   setState(() {
+      currentIndex = index;
+      pageController.jumpToPage(index);
+   });
+  }
+
+
+
+  Widget _buildDrawer(){
+   return Container(
+     color: Colors.black,
+     child: ListView(
+       padding: const EdgeInsets.only(),
+    children: <Widget>[
+      //头部
+      _drawerHeader(),
+      //body
+      ListTile(
+        leading: Icon(Icons.screen_rotation,color: Colors.white,),
+        title: Text("横竖屏切换",style: TextStyle(color: Colors.white),),
+      ),
+      ListTile(
+        leading: Icon(Icons.warning,color: Colors.white,),
+        title: Text("检查更新",style: TextStyle(color: Colors.white),),
+      ),
+      ListTile(
+        leading: Icon(Icons.help_outline,color: Colors.white,),
+        title: Text("帮助",style: TextStyle(color: Colors.white),),
+      ),
+      ListTile(
+        leading: Icon(Icons.contact_phone,color: Colors.white,),
+        title: Text("联系我们",style: TextStyle(color: Colors.white),),
+      ),
+      ListTile(
+        leading: Icon(Icons.speaker_notes,color: Colors.white,),
+        title: Text("意见反馈",style: TextStyle(color: Colors.white),),
+      ),
+    ],),
+   );
+  }
+
+
+
+  Widget _drawerHeader(){
+   return Container(
+     padding: EdgeInsets.all(8),
+     child: Row(
+       children: <Widget>[
+         CircleAvatar(
+           backgroundImage: AssetImage("assets/drawable-xhdpi/icon_man.jpg",),
+         ),
+         Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           children: <Widget>[
+             //店铺名字
+             Text(
+               "$storeName",
+               style: TextStyle(color: Colors.white),
+             ),
+             //name
+             Text(
+               "$admin   $adminName",
+               style: TextStyle(color: Colors.white),
+             ),
+           ],
+         ),
+         Expanded(
+           flex: 1,
+         ),
+         Icon(
+           Icons.arrow_forward_ios,
+           color: Colors.white,
+         )
+       ],
+     ),
+   );
+  }
+
 }
 
 
