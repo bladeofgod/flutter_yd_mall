@@ -61,6 +61,16 @@ class HomePageState extends State<HomePage> {
                     Colors.white, true),
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+                    Colors.white, true),
+                buildEmptyContainer(),
+                buildEmptyContainer(),
+                buildEmptyContainer(),
+              ],
+            )
           ],
         ),
       ),
@@ -69,6 +79,14 @@ class HomePageState extends State<HomePage> {
 }
 //just for test  do nothing
 pressTest(){}
+
+//占位widget
+Widget buildEmptyContainer(){
+  return Expanded(
+    flex: 1,
+    child: Container(),
+  );
+}
 
 
 Widget buildSquareContainer(String title,Icon icon,Function press,Color bg,
@@ -80,10 +98,16 @@ Widget buildSquareContainer(String title,Icon icon,Function press,Color bg,
     child: Container(
       decoration: hasBorder ?
       BoxDecoration(
+        color: bg,
           border: Border.all(color: Colors.black12,width: 1)
-      ):BoxDecoration(border: Border.all(color: Colors.transparent,width: 0)),
+      ):BoxDecoration(
+        color: bg,
+          border: Border.all(color: Colors.transparent,width: 0)),
       alignment: Alignment.center,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           icon,
           Text(

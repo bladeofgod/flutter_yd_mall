@@ -73,10 +73,10 @@ class MainPageState extends State<MainPage> {
       child: Scaffold(
         key: _globalKey,
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: Colors.blueAccent,
-          title:Center(
-            child: Text(appBarTitles[currentIndex]),
-          ) ,
+          centerTitle:true ,
+          title:Text(appBarTitles[currentIndex]),
           leading: FlatButton(onPressed: (){
             //Scaffold.of(context).openDrawer();
             _globalKey.currentState.openDrawer();
