@@ -114,7 +114,7 @@ class StorePageState extends State<StorePage> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10),
+                margin: EdgeInsets.only(left: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
