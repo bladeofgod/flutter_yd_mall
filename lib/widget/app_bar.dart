@@ -36,7 +36,7 @@ class AppBarWidgetState extends State<AppBarWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top,left: 10,right: 10),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       color: Colors.blue,
       child: Stack(
         children: <Widget>[
@@ -50,7 +50,8 @@ class AppBarWidgetState extends State<AppBarWidget> {
             margin: EdgeInsets.symmetric(horizontal:45),
             child: Text(
               widget.title,
-              style: TextStyle(fontWeight: ScreenUtil.getInstance().setSp(18),color: Colors.white),
+              style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(18),color:
+              Colors.white),
             ),
           ),
           Positioned(

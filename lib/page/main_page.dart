@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constant/constant.dart';
 import '../utils/sp_manager.dart';
 import '../constant/page_title.dart';
@@ -20,6 +21,8 @@ class MainPage extends StatefulWidget{
 }
 
 class MainPageState extends State<MainPage> {
+
+  final GlobalKey<ScaffoldState> _globalKey = new GlobalKey();
 
  var appBarTitles;
  int currentIndex = 0;
@@ -47,7 +50,11 @@ class MainPageState extends State<MainPage> {
     if(userName.isEmpty){
       userName = '测试账号';
       SpManager.singleton.save(Constant.USER_NAME, userName);
+
     }
+    setState(() {
+
+    });
 
 
   }
@@ -64,17 +71,16 @@ class MainPageState extends State<MainPage> {
     //可监听退出键  其他功能百度
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBarWidget(
-          title: appBarTitles[currentIndex],
-          leftWidget: Builder(builder: (context){
-            return IconButton(
-              icon: Icon(Icons.menu,color: Colors.white,),
-              onPressed: (){
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          }),
-        ),
+        key: _globalKey,
+        appBar: AppBar(
+          title:Center(
+            child: Text(appBarTitles[currentIndex]),
+          ) ,
+          leading: FlatButton(onPressed: (){
+            //Scaffold.of(context).openDrawer();
+            _globalKey.currentState.openDrawer();
+          }, child: Icon(Icons.menu,color: Colors.white,))
+        ) ,
         drawer: Drawer(
           child: _buildDrawer(),
         ),
@@ -128,6 +134,7 @@ class MainPageState extends State<MainPage> {
 
   Widget _buildDrawer(){
    return Container(
+     margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
      color: Colors.black,
      child: ListView(
        padding: const EdgeInsets.only(),
@@ -163,14 +170,19 @@ class MainPageState extends State<MainPage> {
 
   Widget _drawerHeader(){
    return Container(
+     height: ScreenUtil.getInstance().setHeight(500),
      padding: EdgeInsets.all(8),
      child: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceAround,
        children: <Widget>[
-         CircleAvatar(
-           backgroundImage: AssetImage("assets/drawable-xhdpi/icon_man.jpg",),
+         Container(
+           alignment: Alignment.centerLeft,
+           child: CircleAvatar(
+             backgroundImage: AssetImage("assets/drawable-xhdpi/icon_man.jpg",),
+           ),
          ),
          Column(
-           mainAxisAlignment: MainAxisAlignment.start,
+           mainAxisAlignment: MainAxisAlignment.center,
            children: <Widget>[
              //店铺名字
              Text(
@@ -184,9 +196,9 @@ class MainPageState extends State<MainPage> {
              ),
            ],
          ),
-         Expanded(
-           flex: 1,
-         ),
+//         Expanded(
+//           flex: 1,
+//         ),
          Icon(
            Icons.arrow_forward_ios,
            color: Colors.white,
