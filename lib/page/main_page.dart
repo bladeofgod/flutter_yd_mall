@@ -73,6 +73,7 @@ class MainPageState extends State<MainPage> {
       child: Scaffold(
         key: _globalKey,
         appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
           title:Center(
             child: Text(appBarTitles[currentIndex]),
           ) ,

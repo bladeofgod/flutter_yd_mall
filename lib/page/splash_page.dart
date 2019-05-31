@@ -21,7 +21,7 @@ class SplashPageState extends State<SplashPage> {
 
 
 
-    Future.delayed(Duration(seconds: 4)).whenComplete((){
+    Future.delayed(Duration(seconds: 2)).whenComplete((){
       Navigator.pushReplacementNamed(context, 'main_page');
     });
 
