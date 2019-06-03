@@ -8,6 +8,7 @@ import '../widget/app_bar.dart';
 import '../page/vip/vip_page.dart';
 import '../page/store/store_page.dart';
 import '../page/home/home_page.dart';
+import '../utils/no_inkwell.dart';
 
 
 
@@ -20,11 +21,13 @@ class MainPage extends StatefulWidget{
 
 }
 
-class MainPageState extends State<MainPage> {
+class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
 
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey();
 
- var appBarTitles;
+  TabController _tabController;
+
+ List<String> appBarTitles;
  int currentIndex = 0;
  PageController pageController = PageController(initialPage: 0,keepPage: true);
  DateTime lastPressedAt; //上次点击时间
@@ -56,6 +59,13 @@ class MainPageState extends State<MainPage> {
 
     });
 
+    appBarTitles = [PageTitles.VIP_PAGE,
+      userName,
+      PageTitles.SHOP_PAGE];
+
+    _tabController = new TabController(length: appBarTitles.length,
+        vsync:this,initialIndex: currentIndex);
+
 
   }
 
@@ -64,9 +74,7 @@ class MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    appBarTitles = [PageTitles.VIP_PAGE,
-      userName,
-      PageTitles.SHOP_PAGE];
+
 
     //可监听退出键  其他功能百度
     return WillPopScope(
@@ -94,23 +102,24 @@ class MainPageState extends State<MainPage> {
             StorePage(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          type: BottomNavigationBarType.fixed,
-          fixedColor: Colors.lightBlue,
-          onTap: (index)=>tap(index),
-          items: [
-            BottomNavigationBarItem(
-              title: Text(appBarTitles[0],),icon:Icon(Icons.person_add)
-            ),
-            BottomNavigationBarItem(
-                title: Text(appBarTitles[1],),icon:Icon(Icons.home)
-            ),
-            BottomNavigationBarItem(
-                title: Text(appBarTitles[2],),icon:Icon(Icons.store)
-            ),
-          ],
-        ),
+        bottomNavigationBar:_bottomNavigationBar()
+//        BottomNavigationBar(
+//          currentIndex: currentIndex,
+//          type: BottomNavigationBarType.fixed,
+//          fixedColor: Colors.lightBlue,
+//          onTap: (index)=>tap(index),
+//          items: [
+//            BottomNavigationBarItem(
+//              title: Text(appBarTitles[0],),icon:Icon(Icons.person_add)
+//            ),
+//            BottomNavigationBarItem(
+//                title: Text(appBarTitles[1],),icon:Icon(Icons.home)
+//            ),
+//            BottomNavigationBarItem(
+//                title: Text(appBarTitles[2],),icon:Icon(Icons.store)
+//            ),
+//          ],
+//        ),
       ),
       onWillPop: ()async{
         if(lastPressedAt == null || DateTime.now().difference(lastPressedAt)
@@ -123,6 +132,41 @@ class MainPageState extends State<MainPage> {
       },
     );
   }
+
+  /*
+  * 使用tabbar  解决 水波纹残留的问题
+  * */
+
+  Widget _bottomNavigationBar(){
+    return Container(
+      height: 56,
+      width: double.infinity,
+      child: TabBar(
+        indicatorWeight: 0.0000001,
+        onTap: (index)=>tap(index),
+        controller: _tabController,
+          labelColor:Colors.blue ,
+          unselectedLabelColor: Colors.grey,
+          tabs: <Widget>[
+            bottomItem(Icon(Icons.person_add),Text(appBarTitles[0],)),
+            bottomItem(Icon(Icons.home), Text(appBarTitles[1],)),
+            bottomItem(Icon(Icons.store),  Text(appBarTitles[2],))
+          ],),
+    );
+  }
+
+  Widget bottomItem(Icon icon,Text text){
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          icon,
+          text
+        ],
+      ),
+    );
+  }
+
 
   tap(int index){
    setState(() {
