@@ -28,6 +28,11 @@ class VipPageState extends State<VipPage> {
           children: <Widget>[
             buildSearchWidget(),
             buildFilter(),
+            Container(
+              height: 1,
+              color: Colors.black12,
+            ),
+            //listview
           ],
         ),
       ),
