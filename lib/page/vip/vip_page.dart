@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-
-class VipPage extends StatefulWidget{
+class VipPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return VipPageState();
   }
-
 }
 
 class VipPageState extends State<VipPage> {
-
   TextEditingController searchController;
 
   @override
@@ -37,86 +34,112 @@ class VipPageState extends State<VipPage> {
     );
   }
 
-  Widget buildFilter(){
+  Widget buildFilter() {
     return Container(
-      height: 100,
+      padding: EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           //
-          Column(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                '消费次数',
-                style: TextStyle(color: Colors.blueAccent),
+              Container(
+                margin: EdgeInsets.only(top: 2),
+                child: Text(
+                  '消费次数',
+                  style: TextStyle(color: Colors.blueAccent,fontSize:
+                  ScreenUtil.getInstance().setSp(45)),
+                ),
+              ),
+
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  //todo 这里要做事件监听
+                  Stack(
+                    children: <Widget>[
+                      Positioned(
+                        child: Icon(
+                          Icons.arrow_drop_up,
+                          size: 25,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      Positioned(
+                        top: 5,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 25,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                ],
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(top: 2),
+                child: Text(
+                  '消费金额',
+                  style: TextStyle(color: Colors.blueAccent,fontSize:
+                  ScreenUtil.getInstance().setSp(45)),
+                ),
               ),
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   //这里要做事件监听
-                  Icon(Icons.arrow_drop_up,color: Colors.blueAccent,),
-                  Icon(Icons.arrow_drop_down,color: Colors.white,),
+                  Stack(
+                    children: <Widget>[
+                      Positioned(
+                        child: Icon(
+                          Icons.arrow_drop_up,
+                          size: 25,
+                          color: Colors.blueAccent,
+                        ),
+                      ),
+                      Positioned(
+                        top: 5,
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          size: 25,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
           ),
           //
-          Column(
-            children: <Widget>[
-              Text(
-                '消费金额',
-                style: TextStyle(color: Colors.blueAccent),
-              ),
-              Column(
-                children: <Widget>[
-                  //这里要做事件监听
-                  Icon(Icons.arrow_drop_up,color: Colors.blueAccent,),
-                  Icon(Icons.arrow_drop_down,color: Colors.white,),
-                ],
-              ),
-            ],
-          )
         ],
       ),
     );
   }
 
-  Widget buildSearchWidget(){
+  Widget buildSearchWidget() {
     return Container(
-      height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black12,width: 1)
-      ),
+        borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: Colors.black12, width: 1),),
+      margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(5),
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.search),
-          TextField(
-            controller: searchController,
-            decoration: InputDecoration(
-              hintText: "搜索会员手机号或备注信息"
-            ),
-          )
-        ],
+      child: TextField(
+        controller: searchController,
+        decoration: InputDecoration(
+          icon:Icon(Icons.search) ,
+            border: InputBorder.none,
+            hintText: "搜索会员手机号或备注信息"),
       ),
     );
-
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

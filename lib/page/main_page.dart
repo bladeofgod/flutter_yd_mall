@@ -27,15 +27,17 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
 
   TabController _tabController;
 
- List<String> appBarTitles;
+
  int currentIndex = 0;
  PageController pageController = PageController(initialPage: 0,keepPage: true);
  DateTime lastPressedAt; //上次点击时间
 
  var storeName = "惠友测试一店";
  var admin = "超级管理员";
- var adminName =  "杨晋";
+ var adminName =  "李佳奇";
  String userName = "";
+  List<String> appBarTitles = [PageTitles.VIP_PAGE,
+    PageTitles.SHOP_PAGE];
 
  @override
   void initState() {
@@ -46,7 +48,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
         .getString(Constant.USER_NAME).then((str){
       userName = str;
       setState(() {
-
+        appBarTitles.insert(1, userName);
       });
     }) ;
 
@@ -56,16 +58,13 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
 
     }
     setState(() {
-
+      appBarTitles.insert(1, userName);
     });
 
-    appBarTitles = [PageTitles.VIP_PAGE,
-      userName,
-      PageTitles.SHOP_PAGE];
+
 
     _tabController = new TabController(length: appBarTitles.length,
         vsync:this,initialIndex: currentIndex);
-
 
   }
 
