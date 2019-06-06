@@ -30,11 +30,14 @@ class StorePageState extends State<StorePage> {
               padding: EdgeInsets.only(left: 10,top: 10,bottom: 10),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.store,color: Colors.black,),
+                  Icon(Icons.store,color: Colors.black,size: 20,),
+                  Container(
+                    width: ScreenUtil.getInstance().setSp(12),
+                  ),
                   Text(
                     "店铺管理",
                     style: TextStyle(color: Colors.black,fontSize: ScreenUtil
-                        .getInstance().setSp(50)),
+                        .getInstance().setSp(40)),
                   ),
                 ],
               ),

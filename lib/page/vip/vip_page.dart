@@ -132,7 +132,6 @@ class VipPageState extends State<VipPage> {
         borderRadius: BorderRadius.circular(5),
           border: Border.all(color: Colors.black12, width: 1),),
       margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(5),
       child: TextField(
         controller: searchController,
         decoration: InputDecoration(
