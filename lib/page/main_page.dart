@@ -148,7 +148,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
           unselectedLabelColor: Colors.grey,
           tabs: <Widget>[
             bottomItem(Icon(Icons.person_add),Text(appBarTitles[0],)),
-            bottomItem(Icon(Icons.home), Text(appBarTitles[1],)),
+            bottomItem(Icon(Icons.home), Text(appBarTitles[1]==null? '测试账号' : appBarTitles[1],)),
             bottomItem(Icon(Icons.store),  Text(appBarTitles[2],))
           ],),
     );
