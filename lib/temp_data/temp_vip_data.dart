@@ -24,7 +24,9 @@ class VipPageTestData{
     Random random = Random();
     List<PurchaseEntity> list = List<PurchaseEntity>
           .generate(20, (index){
-            return PurchaseEntity(random.nextDouble() * 10,"${DateTime.now()}",random.nextInt(3)+1);
+            return PurchaseEntity((random.nextInt(100)*100).toDouble(),"${DateTime.now()
+            }",random
+                .nextInt(3)+1);
     });
     return list;
   }

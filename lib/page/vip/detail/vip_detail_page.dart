@@ -20,6 +20,8 @@ class VipDetailPageState extends State<VipDetailPage> {
   final double headerEmptyHeight = 30;
   final double smallHEmptyHeight = 20;
 
+  double screenHeight ;
+
   List<PurchaseEntity> purchaseRecordList = new List();
 
   @override
@@ -32,6 +34,8 @@ class VipDetailPageState extends State<VipDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    screenHeight = MediaQuery.of(context).size.height;
+
     // TODO: implement build
     return Scaffold(
 //      appBar: AppBar(
@@ -145,137 +149,340 @@ class VipDetailPageState extends State<VipDetailPage> {
                 ],
               ),
             ),
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  //body area : remains,discount ...
-                  Container(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            _buildBlockInfo("储值余额", "5524"),
-                            Container(
-                              margin: EdgeInsets.only(left: 6),
-                              width: 1,
-                              height: 20,
-                              color: Colors.black12,
-                            ),
-                            _buildBlockInfo("立减金余额", "54.4")
-                          ],
-                        ),
-                        Divider(
-                          color: Colors.black12,
-                          height: 1,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            _buildBlockInfo("会员折扣", "9.5折"),
-                            Container(
-                              margin: EdgeInsets.only(left: 6),
-                              width: 1,
-                              height: 20,
-                              color: Colors.black12,
-                            ),
-                            _buildBlockInfo("可用券", "3张")
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  // divider container bg: black12
-                  Container(
-                    height: ScreenUtil.getInstance().setHeight(30),
-                    color: Colors.black12,
-                  ),
-                  //title marketing
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 8,right: 4),
-                          height: ScreenUtil.getInstance().setHeight(40),
-                          width: 3,
-                          color: Colors.blue,
-                        ),
-                        Text(
-                          "可针对他做以下营销",
-                          style: TextStyle(color: Colors.black,
-                              fontSize: ScreenUtil.getInstance().setSp(40)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // marketing content
-                  Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    padding: EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        // 1 : 消费立减 2 :折扣优惠 3 :礼券馈赠
-                        _buildShadowRect(1),
-                        _buildShadowRect(2),
-                        _buildShadowRect(3),
-                      ],
-                    ),
-                  ),
-                  // divider container bg: black12
-                  Container(
-                    height: ScreenUtil.getInstance().setHeight(30),
-                    color: Colors.black12,
-                  ),
-
-                  //title purchase record
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 8,right: 4),
-                          height: ScreenUtil.getInstance().setHeight(40),
-                          width: 3,
-                          color: Colors.blue,
-                        ),
-                        Text(
-                          "消费记录",
-                          style: TextStyle(color: Colors.black,
-                              fontSize: ScreenUtil.getInstance().setSp(40)),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    height: 1,
-                    color: Colors.black12,
-                  ),
-                  // body : purchase record
-                  Container(
-                    child:ListView.builder(
-                      itemCount: purchaseRecordList.length,
-                      itemBuilder: (BuildContext context,int index){
-                        return _buildRecordItem(context , index);
-                      },
-                    ),
-                  ),
-                ],
+            Expanded(
+              flex: 1,
+              child: ListView(
+                children: _buildListItem(),
               ),
-            )
+            ),
+
+
+//            SingleChildScrollView(
+//              child: Column(
+//                children: <Widget>[
+//                  //body area : remains,discount ...
+//                  Container(
+//                    child: Column(
+//                      children: <Widget>[
+//                        Row(
+//                          children: <Widget>[
+//                            _buildBlockInfo("储值余额", "5524"),
+//                            Container(
+//                              margin: EdgeInsets.only(left: 6),
+//                              width: 1,
+//                              height: 20,
+//                              color: Colors.black12,
+//                            ),
+//                            _buildBlockInfo("立减金余额", "54.4")
+//                          ],
+//                        ),
+//                        Divider(
+//                          color: Colors.black12,
+//                          height: 1,
+//                        ),
+//                        Row(
+//                          children: <Widget>[
+//                            _buildBlockInfo("会员折扣", "9.5折"),
+//                            Container(
+//                              margin: EdgeInsets.only(left: 6),
+//                              width: 1,
+//                              height: 20,
+//                              color: Colors.black12,
+//                            ),
+//                            _buildBlockInfo("可用券", "3张")
+//                          ],
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                  // divider container bg: black12
+//                  Container(
+//                    height: ScreenUtil.getInstance().setHeight(30),
+//                    color: Colors.black12,
+//                  ),
+//                  //title marketing
+//                  Container(
+//                    padding: EdgeInsets.all(8),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      children: <Widget>[
+//                        Container(
+//                          margin: EdgeInsets.only(left: 8,right: 4),
+//                          height: ScreenUtil.getInstance().setHeight(40),
+//                          width: 3,
+//                          color: Colors.blue,
+//                        ),
+//                        Text(
+//                          "可针对他做以下营销",
+//                          style: TextStyle(color: Colors.black,
+//                              fontSize: ScreenUtil.getInstance().setSp(40)),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                  // marketing content
+//                  Container(
+//                    margin: EdgeInsets.only(bottom: 5),
+//                    padding: EdgeInsets.all(8),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                      children: <Widget>[
+//                        // 1 : 消费立减 2 :折扣优惠 3 :礼券馈赠
+//                        _buildShadowRect(1),
+//                        _buildShadowRect(2),
+//                        _buildShadowRect(3),
+//                      ],
+//                    ),
+//                  ),
+//                  // divider container bg: black12
+//                  Container(
+//                    height: ScreenUtil.getInstance().setHeight(30),
+//                    color: Colors.black12,
+//                  ),
+//
+//                  //title purchase record
+//                  Container(
+//                    padding: EdgeInsets.all(8),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.start,
+//                      children: <Widget>[
+//                        Container(
+//                          margin: EdgeInsets.only(left: 8,right: 4),
+//                          height: ScreenUtil.getInstance().setHeight(40),
+//                          width: 3,
+//                          color: Colors.blue,
+//                        ),
+//                        Text(
+//                          "消费记录",
+//                          style: TextStyle(color: Colors.black,
+//                              fontSize: ScreenUtil.getInstance().setSp(40)),
+//                        ),
+//                        Icon(
+//                          Icons.arrow_forward_ios,
+//                          color: Colors.grey,
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                  Divider(
+//                    height: 1,
+//                    color: Colors.black12,
+//                  ),
+//                  // body : purchase record
+//                  ListView.builder(
+//                    shrinkWrap: true,
+//                    physics: NeverScrollableScrollPhysics(),
+//                    itemCount: purchaseRecordList.length,
+//                    itemBuilder: (BuildContext context,int index){
+//                      return _buildRecordItem(context , index);
+//                    },
+//                  ),
+//                ],
+//              ),
+//            )
           ],
         ),
       ),
     );
   }
+
+
+  List<Widget> _buildListItem(){
+    List<Widget> list = new List();
+    //body area : remains,discount ...
+    list.add(Container(
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              _buildBlockInfo("储值余额", "5524"),
+              Container(
+                margin: EdgeInsets.only(left: 6),
+                width: 1,
+                height: 20,
+                color: Colors.black12,
+              ),
+              _buildBlockInfo("立减金余额", "54.4")
+            ],
+          ),
+          Divider(
+            color: Colors.black12,
+            height: 1,
+          ),
+          Row(
+            children: <Widget>[
+              _buildBlockInfo("会员折扣", "9.5折"),
+              Container(
+                margin: EdgeInsets.only(left: 6),
+                width: 1,
+                height: 20,
+                color: Colors.black12,
+              ),
+              _buildBlockInfo("可用券", "3张")
+            ],
+          ),
+        ],
+      ),
+    ));
+    // divider container bg: black12
+    list.add(Container(
+      height: ScreenUtil.getInstance().setHeight(30),
+      color: Colors.black12,
+    ));
+    //title marketing
+    list.add(Container(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 8,right: 4),
+            height: ScreenUtil.getInstance().setHeight(40),
+            width: 3,
+            color: Colors.blue,
+          ),
+          Text(
+            "可针对他做以下营销",
+            style: TextStyle(color: Colors.black,
+                fontSize: ScreenUtil.getInstance().setSp(40)),
+          ),
+        ],
+      ),
+    ));
+    // marketing content
+    list.add(Container(
+      margin: EdgeInsets.only(bottom: 5),
+      padding: EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          // 1 : 消费立减 2 :折扣优惠 3 :礼券馈赠
+          _buildShadowRect(1),
+          _buildShadowRect(2),
+          _buildShadowRect(3),
+        ],
+      ),
+    ));
+    // divider container bg: black12
+    list.add(Container(
+      height: ScreenUtil.getInstance().setHeight(30),
+      color: Colors.black12,
+    ));
+    //title purchase record
+    list.add(Container(
+      padding: EdgeInsets.all(8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(left: 8,right: 4),
+            height: ScreenUtil.getInstance().setHeight(40),
+            width: 3,
+            color: Colors.blue,
+          ),
+          Text(
+            "消费记录",
+            style: TextStyle(color: Colors.black,
+                fontSize: ScreenUtil.getInstance().setSp(40)),
+          ),
+          Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.grey,
+          ),
+        ],
+      ),
+    ));
+    list.add(Divider(
+      height: 1,
+      color: Colors.black12,
+    ));
+    // body : purchase record
+    for(int index = 0;index<purchaseRecordList.length;index++){
+      list.add(Container(
+        padding: EdgeInsets.all(5),
+        child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Text(
+                  "￥${purchaseRecordList[index].amount}",
+                  style: TextStyle(color: Colors.black,fontSize: ScreenUtil
+                      .getInstance().setSp(45)),
+                ),
+                Text(
+                  "${purchaseRecordList[index].date}",
+                  style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(35)
+                      ,color: Colors.black54),
+                ),
+              ],
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              child: Text(
+                purchaseRecordList[index].payType == 1
+                    ? "微信支付" : purchaseRecordList[index].payType == 2 ? "支付宝支付" :
+                "储值卡支付",
+                style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(30)
+                    ,color: Colors.black54),
+              ),
+            ),
+            Divider(
+              indent: 4,
+            ),
+          ],
+        ),
+      ));
+    }
+    list.add(Container(
+      padding: EdgeInsets.only(top: 10,bottom: 15),
+      alignment: Alignment.center,
+      child: Text("没有更多数据了"),
+    ));
+    return list;
+  }
+
   // todo   list
 
-  Widget _buildRecordItem(BuildContext context,int index){}
+  Widget _buildRecordItem(BuildContext context,int index){
+    return Container(
+      padding: EdgeInsets.all(5),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Text(
+                "￥${purchaseRecordList[index].amount}",
+                style: TextStyle(color: Colors.black,fontSize: ScreenUtil
+                    .getInstance().setSp(45)),
+              ),
+              Text(
+                "${purchaseRecordList[index].date}",
+                style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(35)
+                    ,color: Colors.black54),
+              ),
+            ],
+          ),
+          Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+              purchaseRecordList[index].payType == 1
+                  ? "微信支付" : purchaseRecordList[index].payType == 2 ? "支付宝支付" :
+              "储值卡支付",
+              style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(30)
+                  ,color: Colors.black54),
+            ),
+          ),
+          Divider(
+            indent: 4,
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildShadowRect(int type){
     return Container(
@@ -314,11 +521,12 @@ class VipDetailPageState extends State<VipDetailPage> {
   DecorationImage chooseImage(int type){
     switch(type){
       case 1 :
-        return DecorationImage(image: AssetImage("assets/icon_bg_vip.png",),fit: BoxFit.cover,);
+        return DecorationImage(image: AssetImage("assets/icon_expense_marketing.png",),fit:
+        BoxFit.cover,);
       case 2:
-        return DecorationImage(image: AssetImage("assets/icon_bg_vip.png"),fit: BoxFit.cover,);
+        return DecorationImage(image: AssetImage("assets/icon_discount_marketing.png"),fit: BoxFit.cover,);
       case 3:
-        return DecorationImage(image: AssetImage("assets/icon_bg_vip.png"),fit: BoxFit.cover,);
+        return DecorationImage(image: AssetImage("assets/icon_gifts_marketing.png"),fit: BoxFit.cover,);
     }
   }
   

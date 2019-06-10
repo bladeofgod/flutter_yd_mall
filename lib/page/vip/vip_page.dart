@@ -173,7 +173,7 @@ class VipPageState extends State<VipPage> {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 8,right: 8,top: 4,bottom: 4),
+              margin: EdgeInsets.only(left: 8,right: 8,top: 6,bottom: 6),
               child: Row(
                 children: <Widget>[
                   //avatar
