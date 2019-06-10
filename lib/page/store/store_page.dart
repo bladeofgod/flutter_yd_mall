@@ -57,13 +57,17 @@ class StorePageState extends State<StorePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("店员管理", "assets/lkl_icon_store_manage.png",
+                pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("商品管理", "assets/lkl_icon_goods_manager.png",
+                pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("配送管理", "assets/lkl_icon_deliver_manager.png",
+                pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("数据统计", "assets/icon_analysis.png",
+                pressTest(),
                 Colors.white, true),
           ],
         ),
@@ -71,13 +75,15 @@ class StorePageState extends State<StorePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("经营分析", "assets/sale_analyze.png", pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("收款语音提醒", "assets/icon_voice.png", pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("电源业绩", "assets/icon_store_performance.png",
+                pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("我的业绩", "assets/performance_my.png",
+                pressTest(),
                 Colors.white, true),
           ],
         ),
@@ -85,11 +91,12 @@ class StorePageState extends State<StorePage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("打印日结单", "assets/icon_print_daysale.png",
+                pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("收款", "assets/lkl_icon_store_manage.png", pressTest(),
                 Colors.white, true),
-            buildSquareContainer("收款", Icon(Icons.monetization_on), pressTest(),
+            buildSquareContainer("收款", "assets/lkl_icon_store_manage.png", pressTest(),
                 Colors.white, true),
             buildEmptyContainer()
           ],
@@ -160,31 +167,39 @@ Widget buildEmptyContainer(){
   );
 }
 
-Widget buildSquareContainer(String title,Icon icon,Function press,Color bg,
-    bool hasBorder){
+Widget buildSquareContainer(String title,String imgUrl,Function press,Color bg,
+    bool hasBorder,{context}){
   return Expanded(
     flex: 1,
     child: AspectRatio(
       aspectRatio: 1/1,
-      child: Container(
-        decoration: hasBorder ?
-        BoxDecoration(
-            color: bg,
-            border: Border.all(color: Colors.black12,width: 1)
-        ):BoxDecoration(
-            color: bg,
-            border: Border.all(color: Colors.transparent,width: 0)),
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            icon,
-            Text(
-                title
-            ),
-          ],
+      child: GestureDetector(
+        onTap: press(context),
+        child: Container(
+          decoration: hasBorder ?
+          BoxDecoration(
+              color: bg,
+              border: Border.all(color: Colors.black12,width: 1)
+          ):BoxDecoration(
+              color: bg,
+              border: Border.all(color: Colors.transparent,width: 0)),
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                width: ScreenUtil.getInstance().setWidth(80),
+                height: ScreenUtil.getInstance().setHeight(80),
+                child: Image.asset(imgUrl,fit: BoxFit.fill,),
+              ),
+              Text(
+                  title
+              ),
+            ],
+          ),
         ),
       ),),
   );
