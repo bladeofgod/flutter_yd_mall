@@ -21,7 +21,8 @@ class MainPage extends StatefulWidget{
 
 }
 
-class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
+class MainPageState extends State<MainPage> with
+    SingleTickerProviderStateMixin{
 
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey();
 
@@ -251,6 +252,7 @@ class MainPageState extends State<MainPage> with SingleTickerProviderStateMixin{
      ),
    );
   }
+
 
 }
 

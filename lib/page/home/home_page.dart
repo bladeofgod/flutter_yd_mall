@@ -12,7 +12,7 @@ class HomePage extends StatefulWidget{
 
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -148,6 +148,10 @@ class HomePageState extends State<HomePage> {
         ),),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 
 }

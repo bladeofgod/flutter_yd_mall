@@ -16,7 +16,7 @@ class StorePage extends StatefulWidget{
 
 }
 
-class StorePageState extends State<StorePage> {
+class StorePageState extends State<StorePage> with AutomaticKeepAliveClientMixin{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -154,6 +154,10 @@ class StorePageState extends State<StorePage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
 }
 

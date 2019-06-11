@@ -17,7 +17,7 @@ class VipPage extends StatefulWidget {
   }
 }
 
-class VipPageState extends State<VipPage> {
+class VipPageState extends State<VipPage> with AutomaticKeepAliveClientMixin {
 
   TextEditingController searchController;
 
@@ -378,4 +378,8 @@ class VipPageState extends State<VipPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
