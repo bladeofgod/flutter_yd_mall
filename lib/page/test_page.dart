@@ -18,7 +18,7 @@ class TestPageState extends State<TestPage> {
     // TODO: implement build
     return Scaffold(
       body: Container(
-        height: ScreenUtil.getInstance().setHeight(800),
+        height: ScreenUtil.getInstance().setHeight(646),
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/icon_bg_vip.png"),
               fit: BoxFit.cover),
@@ -79,13 +79,27 @@ class TestPageState extends State<TestPage> {
                 ],
               ),
             ),
+            Spacer(
+              flex: 1,
+            ),
             //search
             Container(
-
               color: Colors.white,
               padding: EdgeInsets.all(4),
-              child: buildSearchWidget(),
+              child:Column(
+                children: <Widget>[
+                  buildSearchWidget(),
+                  Container(
+                    margin: EdgeInsets.only(top: 8),
+                    child: Divider(
+                      color: Colors.black,
+                      height: 1,
+                    ),
+                  ),
+                ],
+              )
             ),
+
 
           ],
         ),
@@ -94,18 +108,41 @@ class TestPageState extends State<TestPage> {
   }
 
   Widget buildSearchWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: Colors.black12, width: 1),),
-      margin: EdgeInsets.all(10),
-      child: TextField(
-        //controller: searchController,
-        decoration: InputDecoration(
-            icon:Icon(Icons.search) ,
-            border: InputBorder.none,
-            hintText: "搜索会员手机号或备注信息"),
-      ),
+    return Row(
+      children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          width: ScreenUtil.getInstance().setWidth(880),
+          height: ScreenUtil.getInstance().setHeight(90),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.black12, width: 1),),
+
+          child: TextField(
+            //controller: searchController,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 2),
+                icon:Icon(Icons.search) ,
+                border: InputBorder.none,
+                hintText: "搜索会员手机号或备注信息"),
+          ),
+        ),
+        GestureDetector(
+          //TODO search
+          onTap: (){},
+          child: Container(
+            margin: EdgeInsets.only(left: 8),
+            padding: EdgeInsets.only(bottom: 6,top: 6,left: 10,right: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(2),
+              border: Border.all(color: Colors.lightBlue),
+            ),
+            child: Text("查询",style: TextStyle(color: Colors.lightBlue,
+                fontSize: ScreenUtil.getInstance().setSp(40)),),
+          ),
+        ),
+
+      ],
     );
   }
 

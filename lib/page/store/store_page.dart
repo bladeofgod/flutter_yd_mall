@@ -178,7 +178,7 @@ Widget buildSquareContainer(String title,String imgUrl,Function press,Color bg,
     child: AspectRatio(
       aspectRatio: 1/1,
       child: GestureDetector(
-        onTap: press(context),
+        onTap: press,
         child: Container(
           decoration: hasBorder ?
           BoxDecoration(

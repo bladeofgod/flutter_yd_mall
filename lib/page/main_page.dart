@@ -37,7 +37,7 @@ class MainPageState extends State<MainPage> with
  var admin = "超级管理员";
  var adminName =  "李佳奇";
  String userName = "";
-  List<String> appBarTitles = [PageTitles.VIP_PAGE,
+  List<String> appBarTitles = [PageTitles.VIP_PAGE,"测试账号",
     PageTitles.SHOP_PAGE];
 
  @override
@@ -49,19 +49,18 @@ class MainPageState extends State<MainPage> with
         .getString(Constant.USER_NAME).then((str){
       userName = str;
       setState(() {
-        appBarTitles.insert(1, userName);
+        appBarTitles[1] = userName;
       });
     }) ;
 
     if(userName.isEmpty){
       userName = '测试账号';
+      setState(() {
+        appBarTitles[1] = userName;
+      });
       SpManager.singleton.save(Constant.USER_NAME, userName);
 
     }
-    setState(() {
-      appBarTitles.insert(1, userName);
-    });
-
 
 
     _tabController = new TabController(length: appBarTitles.length,
@@ -74,7 +73,6 @@ class MainPageState extends State<MainPage> with
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
 
     //可监听退出键  其他功能百度
     return WillPopScope(

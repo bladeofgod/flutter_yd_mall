@@ -49,7 +49,7 @@ class TradeRecordPageState extends State<TradeRecordPage> {
     //goto test page
 
     Navigator.of(context).push(MaterialPageRoute(builder: (context){
-      return TestPage();
+      return OfflinePage();
     }));
 
 //    Navigator.of(context).push(MaterialPageRoute(builder: (context){

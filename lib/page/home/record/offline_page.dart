@@ -4,6 +4,8 @@ import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_yd_mall/temp_data/temp_vip_data.dart';
 import 'package:flutter_yd_mall/model/PurchaseRecordEntity.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
 
 
 /*
@@ -68,74 +70,81 @@ class OfflinePageState extends State<OfflinePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark
+        .copyWith(statusBarIconBrightness: Brightness.dark));
     // TODO: implement build
     return Scaffold(
       body: Container(
-        height: double.infinity,
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        //padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: Stack(
           children: <Widget>[
-          EasyRefresh(
-          key: _easyKey,
-          autoLoad: false,
-          firstRefresh: true,
-          behavior: ScrollBehavior(),
-          refreshHeader: ClassicsHeader(
-            key: _headerKey,
-            refreshedText:"刷新完成" ,
-            refreshReadyText: "释放刷新数据",
-            refreshText: "下拉刷新",
-            refreshingText: "刷新中...",
-            bgColor: Colors.transparent,
-            textColor: Colors.black87,
-            moreInfoColor: Colors.black54,
-            showMore: true,
-          ),
-          refreshFooter: ClassicsFooter(
-            key: _footerKey,
-            loadedText: "加载完成",
-            loadReadyText: "释放加载数据",
-            loadingText: "加载中...",
-            loadText: "上拉加载更多",
-            noMoreText: "没有更多数据了",
-            bgColor: Colors.transparent,
-            textColor: Colors.black87,
-            moreInfoColor: Colors.black54,
-            showMore: true,
-          ),
-          child:ListView.builder(
-            controller: _scrollController,
-            itemCount: _listPurchase.length +1,
-            itemBuilder: (context,index){
-              return _buildItem(context,index);
-            },
-          ),
-          onRefresh: ()async{
-            await new Future.delayed(Duration(seconds: 1),(){
-              setState(() {
-                _listPurchase.clear();
-                _listPurchase.addAll(VipPageTestData.getVipData());
-              });
-            });
-          },
-          loadMore: ()async{
-            await new Future.delayed(Duration(seconds: 1),(){
-              if(_listPurchase.length<100){
-                setState(() {
-                  _listPurchase.addAll(VipPageTestData.getVipData());
+            EasyRefresh(
+              key: _easyKey,
+              autoLoad: false,
+              firstRefresh: true,
+              behavior: ScrollBehavior(),
+              refreshHeader: ClassicsHeader(
+                key: _headerKey,
+                refreshedText:"刷新完成" ,
+                refreshReadyText: "释放刷新数据",
+                refreshText: "下拉刷新",
+                refreshingText: "刷新中...",
+                bgColor: Colors.transparent,
+                textColor: Colors.black87,
+                moreInfoColor: Colors.black54,
+                showMore: true,
+              ),
+              refreshFooter: ClassicsFooter(
+                key: _footerKey,
+                loadedText: "加载完成",
+                loadReadyText: "释放加载数据",
+                loadingText: "加载中...",
+                loadText: "上拉加载更多",
+                noMoreText: "没有更多数据了",
+                bgColor: Colors.transparent,
+                textColor: Colors.black87,
+                moreInfoColor: Colors.black54,
+                showMore: true,
+              ),
+              child:ListView.builder(
+                padding: EdgeInsets.all(0),
+                controller: _scrollController,
+                itemCount: _listPurchase.length +1,
+                itemBuilder: (context,index){
+                  return _buildItem(context,index);
+                },
+              ),
+              onRefresh: ()async{
+                await new Future.delayed(Duration(seconds: 1),(){
+                  setState(() {
+                    _listPurchase.clear();
+                    _listPurchase.add(PurchaseRecordEntity("",0,0,0,0,));
+                    _listPurchase.addAll(VipPageTestData.getVipData());
+
+                  });
                 });
-              }
-            });
-          },
-        ),
+              },
+              loadMore: ()async{
+                await new Future.delayed(Duration(seconds: 1),(){
+                  if(_listPurchase.length<100){
+                    setState(() {
+                      _listPurchase.addAll(VipPageTestData.getVipData());
+                    });
+                  }
+                });
+              },
+            ),
             //float app bar
             Offstage(
               offstage: _isAppBarVisible,
               child: Container(
+//                margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 width: double.infinity,
                 color: Colors.lightBlue,
-                padding: EdgeInsets.only(left: 8,right: 8,top: 8,bottom: 6),
-                height: ScreenUtil.getInstance().setHeight(130),
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 12,right: 12,top: 14,bottom: 6),
+                height: ScreenUtil.getInstance().setHeight(150),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,7 +152,10 @@ class OfflinePageState extends State<OfflinePage> {
                     _buildAppBarColumn("今日", "0.00"),
                     _buildAppBarColumn("本周", "175.00"),
                     _buildAppBarColumn("本月", "2565.00"),
-                    Icon(Icons.dashboard,color: Colors.white,),
+                    GestureDetector(
+                      onTap: ()=>Scaffold.of(context).openEndDrawer(),
+                      child: Icon(Icons.dashboard,color: Colors.white,),
+                    ),
                   ],
                 ),
               ),
@@ -164,73 +176,91 @@ class OfflinePageState extends State<OfflinePage> {
     if(index == 0 ){
       //header
       return Container(
-        height: 400,
+        height: ScreenUtil.getInstance().setHeight(646),
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage("assets/icon_bg_vip.png"),
-              fit: BoxFit.fill),
+              fit: BoxFit.cover),
         ),
         child: Column(
           children: <Widget>[
             //app bar
             Container(
+              height: 50,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   IconButton(icon: Icon(Icons.arrow_back_ios),onPressed: ()
                   =>{Navigator.of(context).pop()},color: Colors.white,),
+
                   Text("收款订单",style: TextStyle(color: Colors.white,fontSize:
                   ScreenUtil.getInstance().setSp(40)),),
+
                   IconButton(icon: Icon(Icons.dashboard),color: Colors.white,
-                      onPressed: ()=>{Scaffold.of(context).openEndDrawer()},),
+                    onPressed: ()=>{Scaffold.of(context).openEndDrawer()},),
                 ],
               ),
             ),
             //本日
             Container(
+              height: ScreenUtil.getInstance().setHeight(200),
               padding: EdgeInsets.only(top: 10,bottom: 10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     "今日收入/共0笔",style: TextStyle(color: Colors.white,fontSize:
-                  ScreenUtil.getInstance().setSp(30)),
+                  ScreenUtil.getInstance().setSp(40)),
                   ),
                   Text(
                     "0.00",style: TextStyle(color: Colors.white,fontSize:
-                  ScreenUtil.getInstance().setSp(40)),
+                  ScreenUtil.getInstance().setSp(70)),
                   ),
                 ],
               ),
             ),
             //本周 本月
             Container(
+
+              height: ScreenUtil.getInstance().setHeight(120),
+              padding: EdgeInsets.only(top: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      _buildAppBarColumn("本周", "175.00"),
-                      Container(
-                        color: Colors.black12,
-                        width: 1,
-                        height: double.infinity,
-
-                      ),
-                      _buildAppBarColumn("本月", "2565.00"),
-                    ],
-                  )
+                  _buildAppBarColumn("本周", "175.00"),
+                  Container(
+                    color: Colors.white,
+                    width: 1,
+                    height: ScreenUtil.getInstance().setHeight(80),
+                  ),
+                  _buildAppBarColumn("本月", "2565.00"),
                 ],
               ),
             ),
+            Spacer(
+              flex: 1,
+            ),
             //search
             Container(
-              color: Colors.white,
-              padding: EdgeInsets.all(4),
-              child: buildSearchWidget(),
+                color: Colors.white,
+                padding: EdgeInsets.all(4),
+                child:Column(
+                  children: <Widget>[
+                    buildSearchWidget(),
+
+                    Container(
+                      margin: EdgeInsets.only(top: 8),
+                      child: Divider(
+                        color: Colors.black87,
+                        height: 1,
+                      ),
+                    ),
+                  ],
+                )
             ),
+
 
           ],
         ),
@@ -322,13 +352,17 @@ class OfflinePageState extends State<OfflinePage> {
     return Row(
       children: <Widget>[
         Container(
+          alignment: Alignment.center,
+          width: ScreenUtil.getInstance().setWidth(880),
+          height: ScreenUtil.getInstance().setHeight(90),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(color: Colors.black12, width: 1),),
-          margin: EdgeInsets.all(10),
+
           child: TextField(
-            controller: searchController,
+            //controller: searchController,
             decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(vertical: 2),
                 icon:Icon(Icons.search) ,
                 border: InputBorder.none,
                 hintText: "搜索会员手机号或备注信息"),
@@ -338,14 +372,17 @@ class OfflinePageState extends State<OfflinePage> {
           //TODO search
           onTap: (){},
           child: Container(
-            padding: EdgeInsets.all(4),
+            margin: EdgeInsets.only(left: 8),
+            padding: EdgeInsets.only(bottom: 6,top: 6,left: 10,right: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(2),
               border: Border.all(color: Colors.lightBlue),
             ),
-            child: Text("查询",style: TextStyle(color: Colors.lightBlue),),
+            child: Text("查询",style: TextStyle(color: Colors.lightBlue,
+                fontSize: ScreenUtil.getInstance().setSp(40)),),
           ),
         ),
+
       ],
     );
   }
