@@ -10,6 +10,8 @@ class DioManager{
   DioManager._internal(){
     //can set some options
     _dio = new Dio();
+
+
   }
 
   static DioManager singleton = DioManager._internal();

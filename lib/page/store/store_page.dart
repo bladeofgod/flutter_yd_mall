@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'store_setting_page.dart';
 
 
 class StorePage extends StatefulWidget{
@@ -24,7 +25,13 @@ class StorePageState extends State<StorePage> with AutomaticKeepAliveClientMixin
       body: Container(
         child: Column(
           children: <Widget>[
-            buildHeader(),
+            GestureDetector(
+              onTap: ()=>Navigator.of(context).push(MaterialPageRoute
+                (builder: (context){
+                  return StoreSettingPage();
+              })),
+              child: buildHeader(),
+            ),
             //store manager
             Container(
               padding: EdgeInsets.only(left: 10,top: 10,bottom: 10),
