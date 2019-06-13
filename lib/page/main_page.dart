@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../constant/constant.dart';
 import '../utils/sp_manager.dart';
 import '../constant/page_title.dart';
@@ -73,7 +74,6 @@ class MainPageState extends State<MainPage> with
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-
     //可监听退出键  其他功能百度
     return WillPopScope(
       child: Scaffold(

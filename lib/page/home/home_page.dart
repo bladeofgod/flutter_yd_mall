@@ -2,6 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'record/trade_record_page.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:async';
+import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:flutter/services.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -24,13 +29,13 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                buildSquareContainer("收款", "assets/cashier_disable.png", pressTest(),
+                buildSquareContainer("收款", "assets/cashier_disable.png", pressTest,
                     Colors.blueAccent, false),
                 buildSquareContainer("售卡", "assets/charge_disable.png",
-                    pressTest(),
+                    pressTest,
                     Colors.blueAccent, false),
                 buildSquareContainer("券回收", "assets/reclaim_token_disable.png",
-                    pressTest(),
+                    recycleCoupon,
                     Colors.blueAccent, false),
                 buildSquareContainer("账目", "assets/first_discount_disable.png",
                     checkTradeRecord,
@@ -42,16 +47,16 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 buildSquareContainer("首单优惠", "assets/lkl_icon_order_cash.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("消费立减", "assets/icon_cash_back.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("折扣优惠", "assets/icon_marketing_config.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("礼券馈赠", "assets/lkl_icon_send_gift.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
               ],
             ),
@@ -60,16 +65,16 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 buildSquareContainer("收款码", "assets/icon_pay_code.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("PC端登录", "assets/icon_scan_login.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("分享", "assets/icon_share_app.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildSquareContainer("退款管理", "assets/icon_bill_refund.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
               ],
             ),
@@ -77,7 +82,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 buildSquareContainer("配送", "assets/lkl_icon_deliver.png",
-                    pressTest(),
+                    pressTest,
                     Colors.white, true),
                 buildEmptyContainer(),
                 buildEmptyContainer(),
@@ -93,6 +98,54 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   //just for test  do nothing
   pressTest(){}
+
+
+  //券回收
+  recycleCoupon() async{
+
+    await PermissionHandler().requestPermissions([PermissionGroup.camera,]);
+
+    await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.camera).then((PermissionStatus
+        status){
+          if(status == PermissionStatus.granted){
+            //todo jump scan
+            toScan();
+
+          }else{
+
+            Fluttertoast.showToast(msg: "需要相机权限");
+
+          }
+    });
+
+
+  }
+
+  toScan()async{
+
+    try {
+      String barcode = await scanner.scan();
+      Fluttertoast.showToast(msg: "scanner result : $barcode");
+    } on Exception catch (e) {
+      if (e == scanner.CameraAccessDenied) {
+        Fluttertoast.showToast(msg: "The user did not grant the camera permission!");
+//        setState(() {
+//          this.barcode = 'The user did not grant the camera permission!';
+//        });
+      } else {
+        Fluttertoast.showToast(msg: "unknow error $e");
+//        setState(() => this.barcode = 'Unknown error: $e');
+      }
+    } on FormatException {
+//      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+//      setState(() => this.barcode = 'Unknown error: $e');
+    }
+
+
+  }
+
 
   //查账
   checkTradeRecord(){

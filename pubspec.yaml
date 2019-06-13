@@ -24,9 +24,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
   #屏幕适配
   flutter_screenutil: ^0.5.2
 
@@ -37,8 +34,8 @@ dev_dependencies:
   shared_preferences: ^0.4.3
   sqflite: ^0.12.2
   path_provider: ^0.4.0
-#  redux: ^3.0.0
-#  flutter_redux: ^0.5.2 # 数据传递
+  #  redux: ^3.0.0
+  #  flutter_redux: ^0.5.2 # 数据传递
   #scoped_model: ^1.0.1  # 数据传递
   fluttertoast: 2.1.2
   #permission_handler: ^2.1.2
@@ -52,6 +49,13 @@ dev_dependencies:
   flutter_html: ^0.8.2
   flutter_easyrefresh: ^1.2.7
 
+  permission_handler: ^3.1.0
+  qr_flutter: ^2.0.0 #生成二维码
+  qrscan: ^0.1.6 #扫描二维码
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
