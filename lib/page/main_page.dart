@@ -30,7 +30,7 @@ class MainPageState extends State<MainPage> with
   TabController _tabController;
 
 
- int currentIndex = 0;
+ static int currentIndex = 0;
  PageController pageController = PageController(initialPage: 0,keepPage: true);
  DateTime lastPressedAt; //上次点击时间
 
@@ -38,31 +38,30 @@ class MainPageState extends State<MainPage> with
  var admin = "超级管理员";
  var adminName =  "李佳奇";
  String userName = "";
-  List<String> appBarTitles = [PageTitles.VIP_PAGE,"测试账号",
+ static List<String> appBarTitles = [PageTitles.VIP_PAGE,"测试账号",
     PageTitles.SHOP_PAGE];
 
  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     SpManager.singleton
         .getString(Constant.USER_NAME).then((str){
-      userName = str;
-      setState(() {
-        appBarTitles[1] = userName;
-      });
+      if(str == null || str.isEmpty){
+        userName = '测试账号';
+        setState(() {
+          appBarTitles[1] = userName;
+        });
+        SpManager.singleton.save(Constant.USER_NAME, userName);
+
+      }else{
+        userName = str;
+        setState(() {
+          appBarTitles[1] = userName;
+        });
+      }
+
     }) ;
-
-    if(userName.isEmpty){
-      userName = '测试账号';
-      setState(() {
-        appBarTitles[1] = userName;
-      });
-      SpManager.singleton.save(Constant.USER_NAME, userName);
-
-    }
-
 
     _tabController = new TabController(length: appBarTitles.length,
         vsync:this,initialIndex: currentIndex);

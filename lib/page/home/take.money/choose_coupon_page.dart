@@ -12,13 +12,17 @@ class ChooseCouponPage extends StatefulWidget{
 
 }
 
-class ChooseCouponPageState extends State<ChooseCouponPage> {
+class ChooseCouponPageState extends State<ChooseCouponPage> with AutomaticKeepAliveClientMixin {
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(
-      child: Text("123123123"),
+      child: Text("choose coupon"),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

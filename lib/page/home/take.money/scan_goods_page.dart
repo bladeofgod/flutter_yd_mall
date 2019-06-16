@@ -11,12 +11,16 @@ class ScanGoodsPage extends StatefulWidget{
 
 }
 
-class ScanGoodsPageState extends State<ScanGoodsPage> {
+class ScanGoodsPageState extends State<ScanGoodsPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(
-      child: Text("123123123"),
+      child: Text("scan goods"),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

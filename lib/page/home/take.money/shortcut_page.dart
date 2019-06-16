@@ -10,14 +10,32 @@ class ShortcutPage extends StatefulWidget{
 
 }
 
-class ShortcutPageState extends State<ShortcutPage> {
+class ShortcutPageState extends State<ShortcutPage> with AutomaticKeepAliveClientMixin {
 
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Center(
-      child: Text("123123123"),
+      child: Text("short cut"),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

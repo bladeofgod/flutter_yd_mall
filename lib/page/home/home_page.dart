@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:flutter/services.dart';
+import 'take_money_page.dart';
 
 class HomePage extends StatefulWidget{
   @override
@@ -29,7 +30,7 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                buildSquareContainer("收款", "assets/cashier_disable.png", pressTest,
+                buildSquareContainer("收款", "assets/cashier_disable.png", takeMoney,
                     Colors.blueAccent, false),
                 buildSquareContainer("售卡", "assets/charge_disable.png",
                     pressTest,
@@ -98,6 +99,13 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   //just for test  do nothing
   pressTest(){}
+
+  //收款
+  takeMoney() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+      return TakeMoneyPage();
+    }));
+  }
 
 
   //券回收
