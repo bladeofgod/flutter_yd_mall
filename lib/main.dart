@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'page/splash_page.dart';
 import 'page/main_page.dart';
+import 'package:camera/camera.dart';
+import 'utils/devices_holder.dart';
 
 
-void main() => runApp(MyApp());
+Future<Null> main()async{
+
+  try{
+    await availableCameras().then((cameraList){
+      DevicesHolder.singleton.assembleCameraInfo(cameraList);
+    });
+
+  }on CameraException catch (e) {
+    //logError(e.code, e.description);
+  }
+
+  runApp(MyApp());
+
+}
 
 class MyApp extends StatelessWidget {
   @override

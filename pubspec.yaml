@@ -52,6 +52,12 @@ dependencies:
   permission_handler: ^3.1.0
   qr_flutter: ^2.0.0 #生成二维码
   qrscan: ^0.1.6 #扫描二维码
+#  camera:
+#    git:
+#      url: git://github.com/kmorkos/plugins.git
+#      ref: camera/crash-fix
+#      path: packages/camera/
+  camera: ^0.5.2+1
 
 dev_dependencies:
   flutter_test:

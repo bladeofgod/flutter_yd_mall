@@ -19,6 +19,14 @@ class HomePage extends StatefulWidget{
 }
 
 class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -102,9 +110,30 @@ class HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
 
   //收款
   takeMoney() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context){
-      return TakeMoneyPage();
-    }));
+    handlePermissions();
+//    Navigator.of(context).push(MaterialPageRoute(builder: (context){
+//      return TakeMoneyPage();
+//    }));
+  }
+
+  handlePermissions () async{
+    await PermissionHandler().requestPermissions([PermissionGroup.camera,]);
+
+    await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.camera).then((PermissionStatus
+    status){
+      if(status == PermissionStatus.granted){
+        //todo jump scan
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){
+          return TakeMoneyPage();
+        }));
+
+      }else{
+
+        Fluttertoast.showToast(msg: "需要相机权限");
+
+      }
+    });
   }
 
 
