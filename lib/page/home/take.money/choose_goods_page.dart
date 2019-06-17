@@ -111,12 +111,13 @@ class ChooseGoodsPageState extends State<ChooseGoodsPage> with AutomaticKeepAliv
             ),
           ),
           Container(
-            height: ScreenUtil.getInstance().setHeight(100),
+            height: ScreenUtil.getInstance().setHeight(150),
             child: Row(
               children: <Widget>[
                 Expanded(
                   flex: 1,
                   child: Container(
+                    margin:EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
                     color:Colors.white,
                     child: Icon(Icons.shopping_cart,color: Colors.deepOrange,),
@@ -125,6 +126,7 @@ class ChooseGoodsPageState extends State<ChooseGoodsPage> with AutomaticKeepAliv
                 Expanded(
                   flex: 1,
                   child: Container(
+                    margin: EdgeInsets.only(right: 10),
                     alignment: Alignment.centerRight,
                     color:Colors.white,
                     child: Text(
@@ -158,74 +160,92 @@ class ChooseGoodsPageState extends State<ChooseGoodsPage> with AutomaticKeepAliv
 
   Widget _buildItem(BuildContext context,index){
     return Container(
-      padding: EdgeInsets.all(10),
-      height: ScreenUtil.getInstance().setHeight(400),
-      child: Row(
+      padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+      height: ScreenUtil.getInstance().setHeight(280),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Image.asset(entityList[index].igmUrl,
-            fit: BoxFit.cover,
-            width: ScreenUtil.getInstance().setWidth(250),
-            height: ScreenUtil.getInstance().setHeight(250),),
-          Container(
-            width: ScreenUtil.getInstance().setWidth(200),
-            margin: EdgeInsets.only(left: 10),
-            child: Column(
-              children: <Widget>[
-                Text(entityList[index].name,
-                  style: TextStyle(color: Colors.black,
-                      fontSize:ScreenUtil.getInstance().setSp(40),),),
-                Text("单价￥${entityList[index].price}",
-                  style: TextStyle(color: Colors.black,
-                    fontSize:ScreenUtil.getInstance().setSp(20),),),
-              ],
-            ),
-          ),
-          Spacer(
-            flex: 1,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10,right: 10),
-            width: ScreenUtil.getInstance().setWidth(300),
-            margin: EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                //-
-                GestureDetector(
-                  onTap: (){
-                    _decrease(entityList[index]);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black12,
-                    ),
-                    child: Text("-",style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(30)),),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: ScreenUtil.getInstance().setWidth(200),
+                height: ScreenUtil.getInstance().setHeight(200),
+                child: Image.asset(entityList[index].igmUrl,
+                  fit: BoxFit.cover,
                   ),
+              ),
+              Container(
+                width: ScreenUtil.getInstance().setWidth(250),
+                margin: EdgeInsets.only(left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(entityList[index].name,
+                      style: TextStyle(color: Colors.black,
+                        fontSize:ScreenUtil.getInstance().setSp(50),),),
+                    Text("单价￥${entityList[index].price}",
+                      style: TextStyle(color: Colors.black,
+                        fontSize:ScreenUtil.getInstance().setSp(30),),),
+                  ],
                 ),
-                //amount
-                Text(
-                  "x ${entityList[index].amount}",
-                  style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(30)),
-                ),
-                //+
-                GestureDetector(
-                  onTap: (){
-                    _increase(entityList[index]);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black12,
-                    ),
-                    child: Text("+",style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(30)),),
-                  ),
-                ),
+              ),
+              Spacer(
+                flex: 1,
+              ),
+              Container(
+                  padding: EdgeInsets.only(left: 10,right: 10),
+                  width: ScreenUtil.getInstance().setWidth(300),
+                  margin: EdgeInsets.symmetric(vertical: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      //-
+                      GestureDetector(
+                        onTap: (){
+                          _decrease(entityList[index]);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black12,
+                          ),
+                          child: Text("—",style: TextStyle(fontSize: ScreenUtil
+                              .getInstance().setSp(60)),),
+                        ),
+                      ),
+                      //amount
+                      Text(
+                        "x ${entityList[index].amount}",
+                        style: TextStyle(fontSize: ScreenUtil.getInstance().setSp
+                          (60)),
+                      ),
+                      //+
+                      GestureDetector(
+                        onTap: (){
+                          _increase(entityList[index]);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.black12,
+                          ),
+                          child: Text("+",style: TextStyle(fontSize: ScreenUtil
+                              .getInstance().setSp(60)),),
+                        ),
+                      ),
 
 
-              ],
-            )
+                    ],
+                  )
+              ),
+            ],
+          ),
+          Divider(
+            height: 1,
+            color: Colors.black12,
           ),
         ],
       ),
@@ -250,13 +270,14 @@ class ChooseGoodsPageState extends State<ChooseGoodsPage> with AutomaticKeepAliv
   }
 
   _calculateTotalPrice(){
-    entityList.map((entity){
+    priceSummary = 0;
+    for(MerchandiseEntity entity in entityList){
       if(entity.amount != 0){
         setState(() {
           priceSummary += (double.parse(entity.price) * entity.amount);
         });
       }
-    });
+    }
 
   }
 
